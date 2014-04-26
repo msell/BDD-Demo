@@ -21,6 +21,18 @@ Replace one of the auto-mocked dependencies with a real concrete type.
 
 	Configure(x=>x.For<ICardUpdater>().Use<CardUpdater>());
 
+Use NBuilder in your arrangement to create more expressive tests
+
+	Establish context = () =>
+      {      
+         The<IBurner>().WhenToldTo(x => x.GetMediumInfo()).Return(Builder<MediumInfo>.CreateNew()
+            .With(x => x.FreeSize = 4201929393D)
+            .With(x => x.TypeCode = MediumType.DvdPlusRw)
+            .With(x=> x.Status = MediumStatus.EmptyDisk)
+            .Build()
+            );
+      };
+
 Intercept the arguments passed into a Mock (using MOQ)
 
 	string input;
