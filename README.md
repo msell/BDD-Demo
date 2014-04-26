@@ -1,6 +1,5 @@
-# Machine Fakes Cheatsheet
+# Cheat sheet
 
-## Examples
 Specify the subject under test
 
 	public class when_expired_card_was_detected : WithSubject<CardUpdaterService> 
