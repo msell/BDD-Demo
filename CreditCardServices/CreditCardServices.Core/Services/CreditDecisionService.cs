@@ -12,11 +12,12 @@ namespace CreditCardServices.Core.Services
         }
         public DecisionResponse GetDecision(DecisionRequest decisionRequest)
         {
-            var creditReport = _creditService.CheckCreditHistory(new CreditReportRequest());
-            var decision = new DecisionResponse {Result = DecisionResult.Declined};
+            var decision = new DecisionResponse { Result = DecisionResult.Declined };
 
-            if(creditReport.CreditScore > 600)
-                decision.Result = DecisionResult.Approved;
+            var creditReport = _creditService.CheckCreditHistory(new CreditReportRequest());
+
+            var isQualified = CreditRating.FromScore(creditReport.CreditScore).Qualified;
+            decision.Result = isQualified ? DecisionResult.Approved : DecisionResult.Declined;
 
             return decision;
         }

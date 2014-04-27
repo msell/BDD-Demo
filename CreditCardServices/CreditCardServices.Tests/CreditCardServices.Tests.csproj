@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DecisionService\DescribeCreditDecisionService.cs" />
+    <Compile Include="DecisionService\DescribeCreditRating.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

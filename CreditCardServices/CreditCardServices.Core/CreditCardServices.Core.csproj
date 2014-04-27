@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Headspring\Enumeration.cs" />
+    <Compile Include="Models\CreditRating.cs" />
     <Compile Include="Models\DecisionRequest.cs" />
     <Compile Include="Models\DecisionResponse.cs" />
     <Compile Include="Models\DecisionResult.cs" />
@@ -49,7 +51,12 @@
     <Compile Include="Services\CreditDecisionService.cs" />
     <Compile Include="Services\CreditReportService.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Headspring\LICENSE.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
