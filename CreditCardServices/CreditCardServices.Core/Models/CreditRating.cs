@@ -11,7 +11,8 @@ namespace CreditCardServices.Core.Models
         public static readonly CreditRating Poor = new CreditRating(2, "Poor", 580, 619, false);
         public static readonly CreditRating VeryPoor = new CreditRating(1, "Very Poor", 0, 579, false);
 
-        public CreditRating(int value, string displayName,int lowerBoundary, int upperBoundary, bool qualified) : base(value, displayName)
+        public CreditRating(int value, string displayName,int lowerBoundary, int upperBoundary, bool qualified) 
+            : base(value, displayName)
         {
             UpperBoundary = upperBoundary;
             LowerBoundary = lowerBoundary;
@@ -37,7 +38,5 @@ namespace CreditCardServices.Core.Models
 
             return VeryPoor;
         }
-
-
     }
 }
