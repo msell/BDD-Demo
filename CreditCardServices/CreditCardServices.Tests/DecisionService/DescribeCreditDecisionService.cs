@@ -1,8 +1,11 @@
-﻿using Machine.Specifications;
+﻿using CreditCardServices.Core.Models;
+using CreditCardServices.Core.Services;
+using Machine.Specifications;
 using FluentAssertions;
 
 namespace CreditCardServices.Tests.DecisionService
 {
+    [Subject("CreditDecisionService")]
     class when_the_applicant_has_excellent_credit
     {
         Establish context = () =>
@@ -17,27 +20,5 @@ namespace CreditCardServices.Tests.DecisionService
         static CreditDecisionService sut;
         static DecisionResponse response;
         static DecisionRequest decisionRequest;
-    }
-
-    internal class CreditDecisionService
-    {
-        public DecisionResponse GetDecision(DecisionRequest decisionRequest)
-        {
-            return new DecisionResponse {Result = DecisionResult.Approved};
-        }
-    }
-
-    internal class DecisionRequest
-    {
-    }
-   
-    internal class DecisionResponse
-    {
-        public DecisionResult Result { get; set; }
-    }
-
-    internal enum DecisionResult
-    {
-        Error, Approved, Declined
     }
 }
