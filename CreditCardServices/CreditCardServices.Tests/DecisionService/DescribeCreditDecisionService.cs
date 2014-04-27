@@ -12,7 +12,7 @@ namespace CreditCardServices.Tests.DecisionService
         };
         Because of = () => response = sut.GetDecision(decisionRequest);
 
-        It should_approve_the_applicant = () => response.Should().Be(DecisionResult.Approved);
+        It should_approve_the_applicant = () => response.Result.Should().Be(DecisionResult.Approved);
 
         static CreditDecisionService sut;
         static DecisionResponse response;
@@ -23,17 +23,17 @@ namespace CreditCardServices.Tests.DecisionService
     {
         public DecisionResponse GetDecision(DecisionRequest decisionRequest)
         {
-            throw new System.NotImplementedException();
+            return new DecisionResponse {Result = DecisionResult.Approved};
         }
     }
 
     internal class DecisionRequest
     {
     }
-
+   
     internal class DecisionResponse
     {
-        DecisionResult Result { get; set; }
+        public DecisionResult Result { get; set; }
     }
 
     internal enum DecisionResult
