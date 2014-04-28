@@ -14,13 +14,15 @@ namespace CreditCardServices.Core.Services
         {
             var decision = new DecisionResponse { Result = DecisionResult.Declined };
 
+            if (decisionRequest.HomeAddress.State == "OK")
+            {
+                decision.Result = DecisionResult.Declined;
+                return decision;
+            }
             var creditReport = _creditService.CheckCreditHistory(new CreditReportRequest());
 
             var isQualified = CreditRating.FromScore(creditReport.CreditScore).Qualified;
             decision.Result = isQualified ? DecisionResult.Approved : DecisionResult.Declined;
-
-            if(decisionRequest.HomeAddress.State == "OK")
-                decision.Result = DecisionResult.Declined;
 
             return decision;
         }
