@@ -19,6 +19,9 @@ namespace CreditCardServices.Core.Services
             var isQualified = CreditRating.FromScore(creditReport.CreditScore).Qualified;
             decision.Result = isQualified ? DecisionResult.Approved : DecisionResult.Declined;
 
+            if(decisionRequest.HomeAddress.State == "OK")
+                decision.Result = DecisionResult.Declined;
+
             return decision;
         }
     }

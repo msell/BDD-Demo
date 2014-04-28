@@ -4,6 +4,10 @@ namespace CreditCardServices.Core.Models
 {
     public class CreditReportRequest
     {
+        public CreditReportRequest()
+        {
+            HomeAddress = new Address();
+        }
         public Guid CreditApplicationId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
