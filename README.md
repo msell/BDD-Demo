@@ -55,6 +55,10 @@ Intercept the arguments passed into a Mock (using MOQ)
 	string input;
     The<IEmailService>().WhenToldTo(x=>x.Send(Param.IsAny<string>)).Callback<string>(y=>input=y);
 
-Verify property was set
+Verify property was set using the underlying mocking framework (MOQ)
 
 	It should_set_the_burn_device = () => Mock.Get(The<IBurner>()).VerifySet(x => x.BurnDevice = device);
+
+Verify property was set using Machine.Fakes
+
+	It should_set_the_burn_device = () => The<IBurner>().BurnDevice.ShouldBe(device);
