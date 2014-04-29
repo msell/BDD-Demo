@@ -7,8 +7,7 @@
     {
         Establish context = () =>
         {
-            sut = new CreditDecisionService();
-            
+            sut = new CreditDecisionService(); 
         };
         Because of = () => response = sut.GetDecision(decisionRequest);
 
@@ -18,9 +17,27 @@
         static DecisionResponse response;
         static DecisionRequest decisionRequest;
     }
+
+Example of a test using Machine.Fakes
+
+	class when_the_applicant_has_excellent_credit : WithSubject<CreditDecisionService>
+    {
+        Establish context = () =>
+            The<ICreditReportService>().WhenToldTo(x => x
+            .CheckCreditHistory(Param.IsAny<CreditCardApplication>()))
+            .Return(Builder<CreditReport>.CreateNew()
+            .With(x => x.CreditScore = CreditRating.Excellent.LowerBoundary).Build);
+
+        Because of = () => response = Subject.GetDecision(Builder<CreditCardApplication>.CreateNew().Build());
+
+        It should_approve_the_applicant = () => response.Result.Should().Be(DecisionResult.Approved);
+
+        static DecisionResponse response;
+    }
+
 Specify the subject under test
 
-	public class when_expired_card_was_detected : WithSubject<CardUpdaterService> 
+	class when_expired_card_was_detected : WithSubject<CardUpdaterService> 
 
 Verify a method gets called on a mock:
 
@@ -39,26 +56,33 @@ Replace one of the auto-mocked dependencies with a real concrete type.
 	Configure(x=>x.For<ICardUpdater>().Use<CardUpdater>());
 
 Use NBuilder in your arrangement to create more expressive tests
+      
+	var address = Builder<Address>.CreateNew()
+                .With(x => x.Street = "123 Main St")
+                .With(x => x.City = "Dallas")
+                .With(x => x.State = "TX").Build();
+     
 
-	Establish context = () =>
-      {      
-         The<IBurner>().WhenToldTo(x => x.GetMediumInfo()).Return(Builder<MediumInfo>.CreateNew()
-            .With(x => x.FreeSize = 4201929393D)
-            .With(x => x.TypeCode = MediumType.DvdPlusRw)
-            .With(x=> x.Status = MediumStatus.EmptyDisk)
-            .Build()
-            );
-      };
+Use NBuilder to quickly generate a list with some common values
+
+	Builder<Address>.CreateListOfSize(10).All()
+                .With(x => x.City = "Dallas")
+                .With(x => x.State = "TX").Build();
 
 Intercept the arguments passed into a Mock (using MOQ)
 
 	string input;
     The<IEmailService>().WhenToldTo(x=>x.Send(Param.IsAny<string>)).Callback<string>(y=>input=y);
 
-Verify property was set using the underlying mocking framework (MOQ)
+Get direct access to the underlying mock object and verify a property using MOQ
 
 	It should_set_the_burn_device = () => Mock.Get(The<IBurner>()).VerifySet(x => x.BurnDevice = device);
 
-Verify property was set using Machine.Fakes
+Verify property was set using Machine.Fakes (preferred over the method above)
 
 	It should_set_the_burn_device = () => The<IBurner>().BurnDevice.ShouldBe(device);
+
+Force a fake to throw an exception
+
+	The<IApiWrapper>().WhenToldTo(x => x.DoSomething())
+    	.Throw(new Exception("Kaboom!"));
