@@ -101,3 +101,11 @@ Verify a method was only called once
 
 	It should_lookup_the_applicants_credit_score = () => The<ICreditReportService>()
             .WasToldTo(x => x.CheckCreditHistory(Param.IsAny<CreditCardApplication>())).OnlyOnce();
+
+Get at the underlying mock and raise an event when a method is called on the mock
+
+``` csharp
+Mock.Get(The<IBurner>()).Setup(x => x.Burn())
+        .Callback(() => Mock.Get(The<IBurner>())
+        .Raise(d => d.BurnCompleted += null, new BurnDoneEventArgs("done")));
+```
