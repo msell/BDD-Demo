@@ -8,7 +8,7 @@ namespace CreditCardServices.Core.Services
 {
     public class CreditReportService : ICreditReportService
     {
-        public CreditReport CheckCreditHistory(CreditReportRequest request)
+        public CreditReport CheckCreditHistory(CreditCardApplication request)
         {
             throw new System.NotImplementedException();
         }
@@ -16,6 +16,6 @@ namespace CreditCardServices.Core.Services
 
     public interface ICreditReportService
     {
-        CreditReport CheckCreditHistory(CreditReportRequest request);
+        CreditReport CheckCreditHistory(CreditCardApplication request);
     }
 }

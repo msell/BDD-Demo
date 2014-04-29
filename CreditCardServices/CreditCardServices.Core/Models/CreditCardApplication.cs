@@ -2,9 +2,9 @@
 
 namespace CreditCardServices.Core.Models
 {
-    public class CreditReportRequest
+    public class CreditCardApplication
     {
-        public CreditReportRequest()
+        public CreditCardApplication()
         {
             HomeAddress = new Address();
         }

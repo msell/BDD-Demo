@@ -12,11 +12,11 @@ namespace CreditCardServices.Tests.DecisionService
     {
         Establish context = () =>
             The<ICreditReportService>().WhenToldTo(x => x
-            .CheckCreditHistory(Param.IsAny<CreditReportRequest>()))
+            .CheckCreditHistory(Param.IsAny<CreditCardApplication>()))
                 .Return(Builder<CreditReport>.CreateNew()
                     .With(x => x.CreditScore = CreditRating.Excellent.LowerBoundary).Build);
 
-        Because of = () => response = Subject.GetDecision(Builder<DecisionRequest>.CreateNew().Build());
+        Because of = () => response = Subject.GetDecision(Builder<CreditCardApplication>.CreateNew().Build());
 
         It should_approve_the_applicant = () => response.Result.Should().Be(DecisionResult.Approved);
 
@@ -25,13 +25,13 @@ namespace CreditCardServices.Tests.DecisionService
 
     class when_the_applicant_has_excellent_credit_and_lives_in_oklahoma : WithSubject<CreditDecisionService>
     {
-        Because of = () => response = Subject.GetDecision(Builder<DecisionRequest>.CreateNew()
+        Because of = () => response = Subject.GetDecision(Builder<CreditCardApplication>.CreateNew()
             .With(x=>x.HomeAddress.State = "OK").Build());
 
         It should_deny_the_applicant = () => response.Result.Should().Be(DecisionResult.Declined);
 
         It should_not_lookup_the_applicants_credit_score = () => The<ICreditReportService>()
-            .WasNotToldTo(x => x.CheckCreditHistory(Param.IsAny<CreditReportRequest>()));
+            .WasNotToldTo(x => x.CheckCreditHistory(Param.IsAny<CreditCardApplication>()));
 
         static DecisionResponse response;
     }
@@ -41,12 +41,12 @@ namespace CreditCardServices.Tests.DecisionService
         Establish context = () =>
 
             The<ICreditReportService>().WhenToldTo(x => x
-            .CheckCreditHistory(Param.IsAny<CreditReportRequest>()))
+            .CheckCreditHistory(Param.IsAny<CreditCardApplication>()))
                 .Return(Builder<CreditReport>.CreateNew()
                     .With(x => x.CreditScore = CreditRating.Poor.LowerBoundary).Build);
 
 
-        Because of = () => response = Subject.GetDecision(Builder<DecisionRequest>.CreateNew().Build());
+        Because of = () => response = Subject.GetDecision(Builder<CreditCardApplication>.CreateNew().Build());
 
         It should_decline_the_applicant = () => response.Result.Should().Be(DecisionResult.Declined);
 

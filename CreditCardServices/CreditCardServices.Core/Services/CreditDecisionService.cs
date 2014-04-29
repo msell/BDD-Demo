@@ -10,16 +10,16 @@ namespace CreditCardServices.Core.Services
         {
             _creditService = creditService;
         }
-        public DecisionResponse GetDecision(DecisionRequest decisionRequest)
+        public DecisionResponse GetDecision(CreditCardApplication application)
         {
             var decision = new DecisionResponse { Result = DecisionResult.Declined };
 
-            if (decisionRequest.HomeAddress.State == "OK")
+            if (application.HomeAddress.State == "OK")
             {
                 decision.Result = DecisionResult.Declined;
                 return decision;
             }
-            var creditReport = _creditService.CheckCreditHistory(new CreditReportRequest());
+            var creditReport = _creditService.CheckCreditHistory(new CreditCardApplication());
 
             var isQualified = CreditRating.FromScore(creditReport.CreditScore).Qualified;
             decision.Result = isQualified ? DecisionResult.Approved : DecisionResult.Declined;

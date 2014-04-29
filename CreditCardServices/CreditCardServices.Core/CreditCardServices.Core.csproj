@@ -41,13 +41,12 @@
   <ItemGroup>
     <Compile Include="Headspring\Enumeration.cs" />
     <Compile Include="Models\CreditRating.cs" />
-    <Compile Include="Models\DecisionRequest.cs" />
     <Compile Include="Models\DecisionResponse.cs" />
     <Compile Include="Models\DecisionResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\CreditReport.cs" />
-    <Compile Include="Models\CreditReportRequest.cs" />
+    <Compile Include="Models\CreditCardApplication.cs" />
     <Compile Include="Services\CreditDecisionService.cs" />
     <Compile Include="Services\CreditReportService.cs" />
   </ItemGroup>
