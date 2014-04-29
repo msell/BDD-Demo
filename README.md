@@ -86,3 +86,13 @@ Force a fake to throw an exception
 
 	The<IApiWrapper>().WhenToldTo(x => x.DoSomething())
     	.Throw(new Exception("Kaboom!"));
+
+Verify a method was not called
+
+	It should_not_lookup_the_applicants_credit_score = () => The<ICreditReportService>()
+            .WasNotToldTo(x => x.CheckCreditHistory(Param.IsAny<CreditCardApplication>()));
+
+Verify a method was only called once
+
+	It should_lookup_the_applicants_credit_score = () => The<ICreditReportService>()
+            .WasToldTo(x => x.CheckCreditHistory(Param.IsAny<CreditCardApplication>())).OnlyOnce();
