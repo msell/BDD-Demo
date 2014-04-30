@@ -1,25 +1,25 @@
 # Cheat Sheet
 
-*Vanilla Machine.Specifications*
-
-	[Subject("CreditDecisionService")]
-    class when_the_applicant_has_excellent_credit
+**Vanilla Machine.Specifications**
+```csharp
+[Subject("CreditDecisionService")]
+class when_the_applicant_has_excellent_credit
+{
+	Establish context = () =>
     {
-        Establish context = () =>
-        {
-            sut = new CreditDecisionService(); 
-        };
-        Because of = () => response = sut.GetDecision(decisionRequest);
+    	sut = new CreditDecisionService(); 
+    };
+    Because of = () => response = sut.GetDecision(decisionRequest);
 
-        It should_approve_the_applicant = () => response.Result.Should().Be(DecisionResult.Approved);
+    It should_approve_the_applicant = () => response.Result.Should().Be(DecisionResult.Approved);
 
-        static CreditDecisionService sut;
-        static DecisionResponse response;
-        static DecisionRequest decisionRequest;
-    }
+    static CreditDecisionService sut;
+    static DecisionResponse response;
+    static DecisionRequest decisionRequest;
+}
+```
 
-Example of a test using Machine.Fakes
-
+**Example of a test using Machine.Fakes**
 ```csharp
 class when_the_applicant_has_excellent_credit : 
 	WithSubject<CreditDecisionService>
@@ -40,7 +40,7 @@ It should_approve_the_applicant = () =>
 
 static DecisionResponse response;
 }
-
+```
 
 Specify the subject under test
 ```csharp
@@ -83,37 +83,46 @@ Builder<Address>.CreateListOfSize(10).All()
 ```
 
 Intercept the arguments passed into a Mock (using MOQ)
-
-	string input;
-    The<IEmailService>().WhenToldTo(x=>x.Send(Param.IsAny<string>)).Callback<string>(y=>input=y);
+```csharp
+string input;
+The<IEmailService>().WhenToldTo(x=>x.Send(Param.IsAny<string>))
+	.Callback<string>(y=>input=y);
+```
 
 Get direct access to the underlying mock object and verify a property using MOQ
-
-	It should_set_the_burn_device = () => Mock.Get(The<IBurner>()).VerifySet(x => x.BurnDevice = device);
+```csharp
+It should_set_the_burn_device = () => 
+	Mock.Get(The<IBurner>())
+	.VerifySet(x => x.BurnDevice = device);
+```
 
 Verify property was set using Machine.Fakes (preferred over the method above)
-
-	It should_set_the_burn_device = () => The<IBurner>().BurnDevice.ShouldBe(device);
-
+```csharp
+It should_set_the_burn_device = () => 
+	The<IBurner>()
+	.BurnDevice.ShouldBe(device);
+```
 Force a fake to throw an exception
-
+```csharp
 	The<IApiWrapper>().WhenToldTo(x => x.DoSomething())
-    	.Throw(new Exception("Kaboom!"));
-
+    .Throw(new Exception("Kaboom!"));
+```
 Verify a method was not called
-
-	It should_not_lookup_the_applicants_credit_score = () => The<ICreditReportService>()
-            .WasNotToldTo(x => x.CheckCreditHistory(Param.IsAny<CreditCardApplication>()));
-
+```csharp
+It should_not_lookup_the_applicants_credit_score = () => 
+	The<ICreditReportService>()
+    .WasNotToldTo(x => x.CheckCreditHistory(Param.IsAny<CreditCardApplication>()));
+```
 Verify a method was only called once
-
-	It should_lookup_the_applicants_credit_score = () => The<ICreditReportService>()
-            .WasToldTo(x => x.CheckCreditHistory(Param.IsAny<CreditCardApplication>())).OnlyOnce();
-
+```csharp
+It should_lookup_the_applicants_credit_score = () => 
+	The<ICreditReportService>()
+	.WasToldTo(x => x.CheckCreditHistory(Param.IsAny<CreditCardApplication>())).OnlyOnce();
+```
 Get at the underlying mock and raise an event when a method is called on the mock
 
 ``` csharp
 Mock.Get(The<IBurner>()).Setup(x => x.Burn())
-        .Callback(() => Mock.Get(The<IBurner>())
-        .Raise(d => d.BurnCompleted += null, new BurnDoneEventArgs("done")));
+	.Callback(() => Mock.Get(The<IBurner>())
+    .Raise(d => d.BurnCompleted += null, new BurnDoneEventArgs("done")));
 ```
