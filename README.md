@@ -17,7 +17,8 @@ class when_the_applicant_has_excellent_credit
     };
     Because of = () => response = sut.GetDecision(decisionRequest);
 
-    It should_approve_the_applicant = () => response.Result.Should().Be(DecisionResult.Approved);
+    It should_approve_the_applicant = () =>
+			response.Result.Should().Be(DecisionResult.Approved);
 
     static CreditDecisionService sut;
     static DecisionResponse response;
@@ -117,13 +118,15 @@ It should_set_the_burn_device = () =>
 ```csharp
 It should_not_lookup_the_applicants_credit_score = () =>
 	The<ICreditReportService>()
-    .WasNotToldTo(x => x.CheckCreditHistory(Param.IsAny<CreditCardApplication>()));
+    .WasNotToldTo(x => x
+		.CheckCreditHistory(Param.IsAny<CreditCardApplication>()));
 ```
 **Verify a method was only called once**
 ```csharp
 It should_lookup_the_applicants_credit_score = () =>
 	The<ICreditReportService>()
-	.WasToldTo(x => x.CheckCreditHistory(Param.IsAny<CreditCardApplication>())).OnlyOnce();
+	.WasToldTo(x => x.CheckCreditHistory(Param.IsAny<CreditCardApplication>()))
+	.OnlyOnce();
 ```
 **Get at the underlying mock and raise an event when a method is called on the mock**
 
