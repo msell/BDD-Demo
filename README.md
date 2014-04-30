@@ -1,6 +1,7 @@
 # Cheat Sheet
 
 **Nuget Packages**
+
 	>install-package machine.fakes.moq
 	>install-package FluentAssertions
 
