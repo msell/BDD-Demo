@@ -21,58 +21,66 @@
 Example of a test using Machine.Fakes
 
 ```csharp
-class when_the_applicant_has_excellent_credit : WithSubject<CreditDecisionService>
+class when_the_applicant_has_excellent_credit : 
+	WithSubject<CreditDecisionService>
 {
-    Establish context = () =>
-	    The<ICreditReportService>().WhenToldTo(x => x
-	    .CheckCreditHistory(Param.IsAny<CreditCardApplication>()))
-	    .Return(Builder<CreditReport>.CreateNew()
-	    .With(x => x.CreditScore = CreditRating.Excellent.LowerBoundary).Build);
+Establish context = () =>
+	The<ICreditReportService>().WhenToldTo(x => x
+	.CheckCreditHistory(Param.IsAny<CreditCardApplication>()))
+	.Return(Builder<CreditReport>.CreateNew()
+	.With(x => x.CreditScore
+	CreditRating.Excellent.LowerBoundary).Build);
 
-	Because of = () => 
-		response = Subject.GetDecision(
-			Builder<CreditCardApplication>.CreateNew().Build());
+Because of = () => 
+	response = Subject.GetDecision(
+	Builder<CreditCardApplication>.CreateNew().Build());
 
-	It should_approve_the_applicant = () => 
-		response.Result.Should().Be(DecisionResult.Approved);
+It should_approve_the_applicant = () => 
+	response.Result.Should().Be(DecisionResult.Approved);
 
-	static DecisionResponse response;
+static DecisionResponse response;
 }
-```
+
 
 Specify the subject under test
-
-	class when_expired_card_was_detected : WithSubject<CardUpdaterService> 
+```csharp
+class when_expired_card_was_detected : WithSubject<CardUpdaterService> 
+```
 
 Verify a method gets called on a mock:
-
-   	It should_validate_the_card = () => The<IApiWrapper>().WasToldTo(x => x.IsCardValid(card)).OnlyOnce();
+```csharp
+It should_validate_the_card = () => 
+The<IApiWrapper>().WasToldTo(x => x.IsCardValid(card)).OnlyOnce();
+```
 
 Act
-
-	Because of = () => Subject.DoSomething();
+```csharp
+Because of = () => Subject.DoSomething();
+```
 
 Set a return value on a fake object
-
-	The<IApiWrapper>().WhenToldTo(x => x.IsCardValid(card)).Return(true);
+```csharp
+The<IApiWrapper>().WhenToldTo(x => x.IsCardValid(card)).Return(true);
+```
 
 Replace one of the auto-mocked dependencies with a real concrete type.
-
-	Configure(x=>x.For<ICardUpdater>().Use<CardUpdater>());
-
+```csharp
+Configure(x=>x.For<ICardUpdater>().Use<CardUpdater>());
+```
 Use NBuilder in your arrangement to create more expressive tests
-      
-	var address = Builder<Address>.CreateNew()
-                .With(x => x.Street = "123 Main St")
-                .With(x => x.City = "Dallas")
-                .With(x => x.State = "TX").Build();
-     
+```csharp      
+var address = Builder<Address>.CreateNew()
+    .With(x => x.Street = "123 Main St")
+    .With(x => x.City = "Dallas")
+    .With(x => x.State = "TX").Build();
+```     
 
 Use NBuilder to quickly generate a list with some common values
-
-	Builder<Address>.CreateListOfSize(10).All()
-                .With(x => x.City = "Dallas")
-                .With(x => x.State = "TX").Build();
+```csharp
+Builder<Address>.CreateListOfSize(10).All()
+ 	.With(x => x.City = "Dallas")
+    .With(x => x.State = "TX").Build();
+```
 
 Intercept the arguments passed into a Mock (using MOQ)
 
