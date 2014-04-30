@@ -2,8 +2,8 @@
 
 **Nuget Packages**
 
-	>install-package machine.fakes.moq
-	>install-package FluentAssertions
+	PM>install-package machine.fakes.moq
+	PM>install-package FluentAssertions
 
 **Vanilla Machine.Specifications**
 ```csharp
