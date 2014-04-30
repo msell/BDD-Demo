@@ -7,7 +7,7 @@ class when_the_applicant_has_excellent_credit
 {
 	Establish context = () =>
     {
-    	sut = new CreditDecisionService(); 
+    	sut = new CreditDecisionService();
     };
     Because of = () => response = sut.GetDecision(decisionRequest);
 
@@ -21,7 +21,7 @@ class when_the_applicant_has_excellent_credit
 
 **Example of a test using Machine.Fakes**
 ```csharp
-class when_the_applicant_has_excellent_credit : 
+class when_the_applicant_has_excellent_credit :
 	WithSubject<CreditDecisionService>
 {
 Establish context = () =>
@@ -31,95 +31,95 @@ Establish context = () =>
 	.With(x => x.CreditScore
 	CreditRating.Excellent.LowerBoundary).Build);
 
-Because of = () => 
+Because of = () =>
 	response = Subject.GetDecision(
 	Builder<CreditCardApplication>.CreateNew().Build());
 
-It should_approve_the_applicant = () => 
+It should_approve_the_applicant = () =>
 	response.Result.Should().Be(DecisionResult.Approved);
 
 static DecisionResponse response;
 }
 ```
 
-Specify the subject under test
+**Specify the subject under test**
 ```csharp
-class when_expired_card_was_detected : WithSubject<CardUpdaterService> 
+class when_expired_card_was_detected : WithSubject<CardUpdaterService>
 ```
 
-Verify a method gets called on a mock:
+**Verify a method gets called on a mock**
 ```csharp
-It should_validate_the_card = () => 
+It should_validate_the_card = () =>
 The<IApiWrapper>().WasToldTo(x => x.IsCardValid(card)).OnlyOnce();
 ```
 
-Act
+**Act**
 ```csharp
 Because of = () => Subject.DoSomething();
 ```
 
-Set a return value on a fake object
+**Set a return value on a fake object**
 ```csharp
 The<IApiWrapper>().WhenToldTo(x => x.IsCardValid(card)).Return(true);
 ```
 
-Replace one of the auto-mocked dependencies with a real concrete type.
+**Replace one of the auto-mocked dependencies with a real concrete type**
 ```csharp
 Configure(x=>x.For<ICardUpdater>().Use<CardUpdater>());
 ```
-Use NBuilder in your arrangement to create more expressive tests
-```csharp      
+**Use NBuilder in your arrangement to create more expressive tests**
+```csharp
 var address = Builder<Address>.CreateNew()
     .With(x => x.Street = "123 Main St")
     .With(x => x.City = "Dallas")
     .With(x => x.State = "TX").Build();
-```     
+```
 
-Use NBuilder to quickly generate a list with some common values
+**Use NBuilder to quickly generate a list with some common values**
 ```csharp
 Builder<Address>.CreateListOfSize(10).All()
  	.With(x => x.City = "Dallas")
     .With(x => x.State = "TX").Build();
 ```
 
-Intercept the arguments passed into a Mock (using MOQ)
+**Intercept the arguments passed into a Mock (using MOQ)**
 ```csharp
 string input;
 The<IEmailService>().WhenToldTo(x=>x.Send(Param.IsAny<string>))
 	.Callback<string>(y=>input=y);
 ```
 
-Get direct access to the underlying mock object and verify a property using MOQ
+**Get direct access to the underlying mock object and verify a property using MOQ**
 ```csharp
-It should_set_the_burn_device = () => 
+It should_set_the_burn_device = () =>
 	Mock.Get(The<IBurner>())
 	.VerifySet(x => x.BurnDevice = device);
 ```
 
-Verify property was set using Machine.Fakes (preferred over the method above)
+**Verify property was set using Machine.Fakes (preferred over the method above)**
 ```csharp
-It should_set_the_burn_device = () => 
+It should_set_the_burn_device = () =>
 	The<IBurner>()
 	.BurnDevice.ShouldBe(device);
 ```
-Force a fake to throw an exception
+**Force a fake to throw an exception**
 ```csharp
 	The<IApiWrapper>().WhenToldTo(x => x.DoSomething())
     .Throw(new Exception("Kaboom!"));
 ```
-Verify a method was not called
+**Verify a method was not called**
 ```csharp
-It should_not_lookup_the_applicants_credit_score = () => 
+It should_not_lookup_the_applicants_credit_score = () =>
 	The<ICreditReportService>()
     .WasNotToldTo(x => x.CheckCreditHistory(Param.IsAny<CreditCardApplication>()));
 ```
-Verify a method was only called once
+**Verify a method was only called once**
 ```csharp
-It should_lookup_the_applicants_credit_score = () => 
+It should_lookup_the_applicants_credit_score = () =>
 	The<ICreditReportService>()
 	.WasToldTo(x => x.CheckCreditHistory(Param.IsAny<CreditCardApplication>())).OnlyOnce();
 ```
-Get at the underlying mock and raise an event when a method is called on the mock
+**Get at the underlying mock and raise an event when a method is called on the mock**
 
 ``` csharp
 Mock.Get(The<IBurner>()).Setup(x => x.Burn())
