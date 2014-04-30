@@ -4,6 +4,7 @@
 
 	PM>install-package machine.fakes.moq
 	PM>install-package FluentAssertions
+	PM>install-package NBuilder
 
 **Vanilla Machine.Specifications**
 ```csharp
