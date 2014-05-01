@@ -1,4 +1,4 @@
-#ACME credit card issuer.  We recieve credit card applications and based on the response from a credit bureau service and other business rules we decide whether or not to issue a credit card.
+*ACME credit card issuer.  We recieve credit card applications and based on the response from a credit bureau service and other business rules we decide whether or not to issue a credit card.*
 
 #Business Rules
 
