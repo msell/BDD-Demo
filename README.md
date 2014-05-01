@@ -11,6 +11,6 @@
 |Poor|580|619|
 |Very Poor|0|579|
 
-- Generally speaking we will issue credit cards to anybody with a credit rating greater than Fair
+- Generally speaking we will issue credit cards to anybody with a credit rating greater than Poor
 - Not authorized to issue credit cards in the state of Oklahoma
 - We do not issue credit cards to people with Bankruptcy on file
