@@ -135,3 +135,10 @@ Mock.Get(The<IBurner>()).Setup(x => x.Burn())
 	.Callback(() => Mock.Get(The<IBurner>())
     .Raise(d => d.BurnCompleted += null, new BurnDoneEventArgs("done")));
 ```
+
+**Use AutoFixture to create deep object graphs
+```csharp
+var fixture = new Fixture();
+fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+_config = fixture.Create<FooConfiguration>();
+```
